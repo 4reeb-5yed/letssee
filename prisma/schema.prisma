@@ -1,0 +1,147 @@
+// This is your Prisma schema file,
+// generated from Doc 03: Data Model & Content Pipeline Specification
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// === site_settings (singleton — always exactly one row) ===
+model SiteSettings {
+  id                    String   @id @default(uuid())
+  heroStatement         String   @map("hero_statement")
+  heroStatementSubline String?  @map("hero_statement_subline")
+  turnMomentAssetId     String?  @map("turn_moment_asset_id")
+  turnMomentCaption     String?  @map("turn_moment_caption")
+  contactCtaLabel       String   @map("contact_cta_label")
+  contactCtaType       ContactCtaType @default(mailto) @map("contact_cta_type")
+  contactCtaValue      String   @map("contact_cta_value")
+  darkModeDefault      DarkModeDefault @default(system) @map("dark_mode_default")
+  seoTitle             String   @map("seo_title")
+  seoDescription       String   @map("seo_description")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  turnMomentAsset      MediaAsset? @relation("TurnMomentAsset", fields: [turnMomentAssetId], references: [id])
+
+  @@map("site_settings")
+}
+
+enum ContactCtaType {
+  mailto
+  form
+  link
+}
+
+enum DarkModeDefault {
+  light
+  dark
+  system
+}
+
+// === projects ===
+model Project {
+  id           String   @id @default(uuid())
+  slug         String   @unique
+  title        String
+  roleContext  String?  @map("role_context")
+  summary      String
+  body         Json     // Tiptap/ProseMirror JSON document
+  tags         String[]
+  featured     Boolean  @default(false)
+  sortOrder    Int      @default(0) @map("sort_order")
+  status       ProjectStatus @default(draft)
+  publishedAt  DateTime? @map("published_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  thumbnailId  String   @map("thumbnail_id")
+  heroImageId String   @map("hero_image_id")
+
+  thumbnail   MediaAsset @relation("ProjectThumbnail", fields: [thumbnailId], references: [id])
+  heroImage   MediaAsset @relation("ProjectHero", fields: [heroImageId], references: [id])
+  gallery     MediaAsset[] @relation("ProjectGallery")
+
+  @@index([status, sortOrder])
+  @@index([featured])
+  @@map("projects")
+}
+
+enum ProjectStatus {
+  draft
+  published
+}
+
+// === writing_articles ===
+model WritingArticle {
+  id                   String   @id @default(uuid())
+  slug                 String   @unique
+  title                String
+  summary              String
+  body                 Json     // Tiptap/ProseMirror JSON document
+  tags                 String[]
+  sortOrder            Int      @default(0) @map("sort_order")
+  status               ProjectStatus @default(draft)
+  publishedAt          DateTime? @map("published_at")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+  readingTimeMinutes   Int?     @map("reading_time_minutes")
+
+  thumbnailId  String   @map("thumbnail_id")
+
+  thumbnail   MediaAsset @relation("WritingThumbnail", fields: [thumbnailId], references: [id])
+
+  @@index([status, sortOrder])
+  @@map("writing_articles")
+}
+
+// === media_assets ===
+model MediaAsset {
+  id           String   @id @default(uuid())
+  originalUrl  String   @map("original_url")
+  variants     Json     // { thumbnail, medium, full, avif, webp }
+  altText      String   @map("alt_text")
+  width        Int
+  height       Int
+  uploadedAt   DateTime @default(now()) @map("uploaded_at")
+
+  // Relations for projects
+  projectThumbnails   Project[] @relation("ProjectThumbnail")
+  projectHeroes       Project[] @relation("ProjectHero")
+  projectGalleries    Project[] @relation("ProjectGallery")
+
+  // Relations for writing
+  writingThumbnails    WritingArticle[] @relation("WritingThumbnail")
+
+  // Relation for site settings
+  turnMomentForSite    SiteSettings[] @relation("TurnMomentAsset")
+
+  @@map("media_assets")
+}
+
+// === contact_submissions ===
+model ContactSubmission {
+  id          String   @id @default(uuid())
+  name        String
+  email       String
+  message     String
+  submittedAt DateTime @default(now()) @map("submitted_at")
+  read        Boolean  @default(false)
+  spamScore   Float?   @map("spam_score")
+
+  @@map("contact_submissions")
+}
+
+// === admin_users ===
+model AdminUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String?  @map("password_hash")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("admin_users")
+}
