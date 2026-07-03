@@ -2,7 +2,7 @@
 
 A thoughtful personal portfolio and blog built with Next.js 15, following a comprehensive design specification.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -13,22 +13,16 @@ A thoughtful personal portfolio and blog built with Next.js 15, following a comp
 ### Step 1: Clone & Install
 
 ```bash
-# If starting fresh, clone the repository
-git clone <your-repo-url>
-cd personal-site
-
-# Install all dependencies
+git clone https://github.com/4reeb-5yed/letssee.git
+cd letssee
 npm install
 ```
 
 ### Step 2: Configure Environment
 
 ```bash
-# Copy the example environment file
 cp .env.example .env
-
 # Edit .env with your values
-nano .env  # or use your preferred editor
 ```
 
 **Required environment variables:**
@@ -44,17 +38,13 @@ nano .env  # or use your preferred editor
 ### Step 3: Set Up Database
 
 ```bash
-# Generate Prisma client from schema
 npm run db:generate
-
-# Push schema to your database (creates tables)
 npm run db:push
 ```
 
-### Step 4: Run the Development Server
+### Step 4: Run Development Server
 
 ```bash
-# Start the server
 npm run dev
 ```
 
@@ -66,40 +56,30 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 2. Enter your `ADMIN_EMAIL` and `ADMIN_PASSWORD`
 3. You'll be redirected to the admin dashboard
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-personal-site/
+letssee/
 ├── src/
 │   ├── app/
 │   │   ├── (public)/          # Public website pages
-│   │   │   ├── page.tsx      # Homepage
-│   │   │   ├── work/          # Portfolio work
-│   │   │   ├── writing/       # Blog/articles
-│   │   │   ├── about/         # About page
-│   │   │   └── contact/       # Contact form
-│   │   ├── (admin)/           # Admin/CMS pages
-│   │   │   ├── login/         # Admin login
-│   │   │   ├── dashboard/     # Admin dashboard
-│   │   │   ├── projects/      # Project management
-│   │   │   ├── site-settings/ # Global settings
-│   │   │   └── media/         # Media library
-│   │   └── api/               # API routes
+│   │   ├── (admin)/          # Admin/CMS pages
+│   │   └── api/              # API routes
 │   ├── components/
-│   │   ├── ui/                # Reusable UI components
-│   │   ├── public/            # Public site components
-│   │   └── admin/             # Admin-specific components
+│   │   ├── ui/               # Reusable UI components
+│   │   ├── public/           # Public site components
+│   │   └── admin/            # Admin-specific components
 │   ├── lib/
-│   │   ├── auth/              # Authentication config
-│   │   └── db/                # Database client & types
+│   │   ├── auth/             # Authentication config
+│   │   └── db/               # Database client & types
 │   └── styles/
-│       └── tokens.css         # Design system tokens
+│       └── tokens.css        # Design system tokens
 ├── prisma/
-│   └── schema.prisma          # Database schema
-└── Configuration files         # next.config, tailwind, etc.
+│   └── schema.prisma         # Database schema
+└── Configuration files       # next.config, tailwind, etc.
 ```
 
-## 🎨 Design System
+## Design System
 
 The site uses a custom design system defined in `src/styles/tokens.css`:
 
@@ -127,11 +107,11 @@ The site uses a custom design system defined in `src/styles/tokens.css`:
 --space-9: 8rem   /* 128px */
 ```
 
-## 🛠️ Available Scripts
+## Available Scripts
 
 ```bash
 # Development
-npm run dev          # Start development server (http://localhost:3000)
+npm run dev          # Start development server
 
 # Production
 npm run build        # Build for production
@@ -139,15 +119,15 @@ npm run start        # Start production server
 
 # Database
 npm run db:generate  # Generate Prisma client
-npm run db:push     # Push schema to database
-npm run db:migrate  # Run migrations
-npm run db:studio   # Open Prisma Studio (database GUI)
+npm run db:push      # Push schema to database
+npm run db:migrate   # Run migrations
+npm run db:studio    # Open Prisma Studio
 
 # Code Quality
 npm run lint         # Run ESLint
 ```
 
-## 🔐 Admin Features
+## Admin Features
 
 After logging in at `/admin/login`, you can:
 
@@ -162,10 +142,10 @@ After logging in at `/admin/login`, you can:
 2. Click "New Project"
 3. Fill in title, slug, summary, content
 4. Use the rich text editor for body content
-5. Toggle "Feature on homepage" if you want it on home
+5. Toggle "Feature on homepage" if desired
 6. Click "Save Draft" or "Save & Publish"
 
-## 🚢 Deployment
+## Deployment
 
 ### Deploy to Vercel (Recommended)
 
@@ -175,7 +155,6 @@ After logging in at `/admin/login`, you can:
 4. Deploy!
 
 ```bash
-# Or use Vercel CLI
 npm i -g vercel
 vercel
 ```
@@ -190,7 +169,7 @@ ADMIN_PASSWORD=<secure-password>
 NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
-## 🔧 Tech Stack
+## Tech Stack
 
 - **Framework**: Next.js 15 (App Router)
 - **Styling**: Tailwind CSS v4 with custom design tokens
@@ -199,7 +178,7 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.com
 - **Editor**: Tiptap (ProseMirror-based rich text)
 - **Hosting**: Vercel (recommended)
 
-## 📖 Additional Resources
+## Additional Resources
 
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Tailwind CSS](https://tailwindcss.com/docs)
@@ -207,6 +186,6 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.com
 - [NextAuth.js Documentation](https://authjs.dev/)
 - [Tiptap Documentation](https://tiptap.dev/docs)
 
-## 📄 License
+## License
 
 MIT
